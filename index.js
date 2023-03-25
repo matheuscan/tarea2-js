@@ -16,7 +16,11 @@ Se asumen como ciertos los siguientes postulados:
 */
 let falseNess = false
 
-function EnviarDatosInicial(e){
-    e.preventDefault()
+function loop(n){
+    let mainDiv = document.createElement('div')
+    mainDiv.setAttribute('id','mainDiv')
+    
+              
+    
 }
 

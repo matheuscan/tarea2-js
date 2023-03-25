@@ -5,21 +5,162 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2do - Corte | Germán Matheus</title>
+    <style>
+        h1 {
+            text-align: center;
+            margin-top: 60px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        h3 {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        form {
+            width: 30vw;
+            display: flex;
+            flex-direction: column;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 120px;
+        }
+        input[type=text], input[type=number] {
+            padding: 10px;
+            border: .05px solid black;
+            border-radius: 2rem;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        label {
+            font-family: Helvetica;
+            font-weight: 900;
+        }
+        input[type=submit]{
+            width: fit-content;
+            padding: 10px 20px 10px 20px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: blue;
+            color: white;
+            font-family: Helvetica;
+            font-weight: bold;
+            border: none;
+            border-radius: 1rem;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background-color: cadetblue;
+        }
+        #campoRespuesta {
+            margin-top: 80px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 25px;
+            background-color: cadetblue;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 700;
+            border: 1rem solid black;
+            border-radius: 3rem;
+        }
+    </style>
 </head>
 <body>
-   
-    <form action="" id="formInicial" onsubmit="EnviarDatosInicial()">
-        <label for="numeroEmpleados">Cuantos empleados son</label>
-        <input type="number" name="numeroEmpleados" id="numeroEmpleados" min="1" >
-        <input type="submit" value="Aceptar">
+   <h1>Programa que calcula el sueldo quincenal de un empleado</h1>
+   <h3>By: Germán Matheus, CI: 28.558.862</h3>
+    <form action="" id="formInicial">
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre" required pattern="[a-zA-Z]+">
+
+        <label for="apellido">Apellido</label>
+        <input type="text" name="apellido" id="apellido" required pattern="[a-zA-Z]+">
+
+        <label for="cedula">Cedula</label>
+        <input type="number" name="cedula" id="cedula" min="1" required>
+
+        <label for="horasDiurnas">Horas Diurnas</label>
+        <input type="number" name="horasDiurnas" id="horasDiurnas" required min="1">
+        <label for="horasVespertinas">Horas Vespertinas</label>
+        <input type="number" name="horasVespertinas" id="horasVespertinas" required min="1">
+        <label for="horasNocturnas">Horas Nocturnas</label>
+        <input type="number" name="horasNocturnas" id="horasNocturnas" required min="1">
+        <input type="submit" value="Enviar">
     </form>
     <script src="/index.js"></script>
     <script>
+        /*
+        Escriba un programa que calcule el sueldo quincenal de un empleado, tomando en cuenta sus datos personales
+        (nombre, apellido y cédula) donde el costo de la hora diurna es de 675 Bs, la hora vespertina es de 700 Bs,
+        y la hora nocturna es de 956,23 Bs. Si el empleado devenga menos de 85000, tendrá un descuento de ahorro habitacional
+        de 0,1% y de seguro social de 0,15%. Si el empleado devenga entre 85.000 y 150.000, tendrá un descuento de ahorro habitacional
+        de 0,15% y de seguro social de 0,2% Por último, si el empleado devenga más de 150000, tedrá un descuento de ahorro habitacional de
+        0,3% y de seguro social de 0,25%
+
+        Visualizar sus datos personales, sueldo quincenal sin deducción, descuento de ahorro habitacional, seguro social y sueldo quincenal
+        con deducción (los descuentos pautados en las deducciones son mensuales)
+
+        
+
+        
+        */
+        let nombre = document.getElementById('nombre')
+        let apellido = document.getElementById('apellido')
+        let cedula = document.getElementById('cedula')
+        let horasDiurnas =document.getElementById('horasDiurnas')
+        let horasVespertinas =document.getElementById('horasVespertinas')
+        let horasNocturnas =document.getElementById('horasNocturnas')
+        function Limpiar(){
+            nombre.value = ""
+            apellido.value = ""
+            cedula.value = ""
+            horasDiurnas.value = ""
+            horasVespertinas.value = ""
+            horasNocturnas.value = ""
+        }
         let formInicio = document.querySelector('#formInicial')
 
         formInicio.addEventListener('submit', (e) =>{
             e.preventDefault()
+            let div = document.createElement('div')
+            let h2 = document.createElement('h2')
+            let p = document.createElement('p')
+
+            let valorHd = horasDiurnas.value * 675
+            let valorhV = horasVespertinas.value * 700
+            let valorHn = horasNocturnas.value * 956.23
+            let sueldoBruto = valorHd + valorhV + valorHn
+            let descuentoAH, descuentoSS;
+
+            if (sueldoBruto < 85000){
+                descuentoAH = sueldoBruto*0.1
+                descuentoSS = sueldoBruto*0.15
+            }else if (sueldoBruto >= 85000 || sueldoBruto <= 150000){
+                descuentoAH = sueldoBruto*0.15
+                descuentoSS = sueldoBruto*0.2
+            }
+            else{
+                descuentoAH = sueldoBruto*0.3
+                descuentoSS = sueldoBruto*0.25
+            }
+
+            h2.innerText = "Datos del trabajador"
+            p.innerText = `
+                Nombre: ${nombre.value}
+                Apellido: ${apellido.value}
+                Cedula: ${cedula.value}
+                Sueldo quincenal sin deducción: ${sueldoBruto}
+                Descuento de ahorro habitacional: ${descuentoAH}
+                Descuento del seguro social: ${descuentoSS}
+                Sueldo quincenal con deducción: ${sueldoBruto - descuentoAH - descuentoSS}
+            `
+            div.setAttribute('id', 'campoRespuesta')
+            div.appendChild(h2)
+            div.appendChild(p)
+            let body = document.querySelector('body')
+            body.appendChild(div)
+            Limpiar()
         })
+        
     </script>
 </body>
 </html>
